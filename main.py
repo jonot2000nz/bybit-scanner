@@ -2,6 +2,9 @@ import os
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 from scanner import run_scan
+from dotenv import load_dotenv
+
+load_dotenv()
 
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
@@ -13,7 +16,10 @@ async def scan(update: Update, context: ContextTypes.DEFAULT_TYPE):
     results = run_scan()
     await update.message.reply_text(results)
 
-if __name__ == "__main__":
+def main():
     app = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
     app.add_handler(CommandHandler("scan", scan))
     app.run_polling()
+
+if __name__ == "__main__":
+    main()
